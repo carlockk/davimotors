@@ -1,0 +1,70 @@
+import { useEffect, useRef, useState } from 'react';
+import { Box, Skeleton, Typography } from '@mui/material';
+
+export default function ImageWithSkeleton({
+  src,
+  alt,
+  onClick,
+  containerSx = {},
+  imageSx = {},
+  fallback = null
+}) {
+  const [loaded, setLoaded] = useState(false);
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    setLoaded(Boolean(src && imageRef.current?.complete));
+  }, [src]);
+
+  return (
+    <Box
+      onClick={src && onClick ? onClick : undefined}
+      sx={{
+        position: 'relative',
+        overflow: 'hidden',
+        ...containerSx
+      }}
+    >
+      {src ? (
+        <>
+          {!loaded && (
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                transform: 'none',
+                borderRadius: 'inherit'
+              }}
+            />
+          )}
+          <Box
+            component="img"
+            ref={imageRef}
+            src={src}
+            alt={alt}
+            loading="lazy"
+            decoding="async"
+            onLoad={() => setLoaded(true)}
+            onError={() => setLoaded(true)}
+            sx={{
+              width: '100%',
+              height: '100%',
+              opacity: loaded ? 1 : 0,
+              transition: 'opacity 0.15s ease',
+              verticalAlign: 'middle',
+              ...imageSx
+            }}
+          />
+        </>
+      ) : (
+        fallback || (
+          <Typography variant="caption" color="text.secondary" align="center">
+            Sin imagen
+          </Typography>
+        )
+      )}
+    </Box>
+  );
+}
