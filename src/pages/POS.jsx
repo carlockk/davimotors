@@ -41,7 +41,7 @@ import SelectorVariantes from '../components/SelectorVariantes';
 import SelectorAgregadosDialog from '../components/SelectorAgregadosDialog';
 
 // ✅ Ahora usamos la base de archivos que sale de api.js
-const BASE_URL = FILES_BASE || (import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000');
+const BASE_URL = FILES_BASE;
 const MIN_STOCK_ALERT = 3;
 const OBJECT_ID_REGEX = /^[a-f\d]{24}$/i;
 const DESKTOP_CART_WIDTH = 380;

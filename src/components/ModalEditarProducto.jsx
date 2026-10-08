@@ -16,7 +16,7 @@ import {
   FormControlLabel
 } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { editarProducto, obtenerCategorias } from '../services/api';
+import { editarProducto, obtenerCategorias, FILES_BASE } from '../services/api';
 import VariantesForm from './VariantesForm';
 import { useAuth } from '../context/AuthContext';
 import { optimizeImageFile } from '../lib/imageUpload';
@@ -296,7 +296,7 @@ export default function ModalEditarProducto({ open, onClose, producto, onActuali
             <img
               src={
                 form.imagen_url.startsWith('/uploads')
-                  ? `http://localhost:5000${form.imagen_url}`
+                  ? `${FILES_BASE}${form.imagen_url}`
                   : form.imagen_url
               }
               alt="preview"

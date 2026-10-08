@@ -4,12 +4,17 @@ export const LOCAL_REQUIRED_EVENT = 'app:local-required';
 export const SESSION_EXPIRED_EVENT = 'app:session-expired';
 
 // ✅ Resolver base de API y base de archivos a partir de la variable de entorno
-const rawBase = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api';
+const rawBase = import.meta.env.VITE_BACKEND_URL || (
+  import.meta.env.PROD
+    ? 'https://davimotorsback.onrender.com'
+    : 'http://localhost:5000'
+);
+const normalizedBase = rawBase.replace(/\/+$/, '');
 
 // Normalizamos para que SIEMPRE tenga /api al final
-const API_BASE = rawBase.endsWith('/api')
-  ? rawBase
-  : `${rawBase.replace(/\/+$/, '')}/api`;
+const API_BASE = normalizedBase.endsWith('/api')
+  ? normalizedBase
+  : `${normalizedBase}/api`;
 
 // Base para archivos estáticos (/uploads), sin /api
 export const FILES_BASE = API_BASE.replace(/\/api\/?$/, '');
